@@ -1,0 +1,18 @@
+version: "3.3"
+services:
+  mongo:
+    image: mongo
+    container_name: project_gp5_db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: comp3122_gp5
+      MONGO_INITDB_ROOT_PASSWORD: 12345
+      MONGO_INITDB_DATABASE: admin
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+      - mongo_volume:/data/project_gp5_db
+networks:
+  default:
+    name: project_gp5
+volumes:
+  mongo_volume:
+    name: mongo_vol
