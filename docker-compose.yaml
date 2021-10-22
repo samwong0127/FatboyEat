@@ -1,71 +1,41 @@
 version: "3.3"
 services:
-
-  mongo_store:
-    image: mongo
-    container_name: db_store
+  store:
+    build: ./store
+    #command: python3 store.py
+    depends_on:
+      - mongo_store
+    environment:
+      # MONGODB_DATABASE: 
+      
+      MONGODB_USERNAME: store
+      MONGODB_PASSWORD: 12345
+      MONGO_SERVER_HOST: db_store
+      MONGO_SERVER_PORT: '27017'
+    #volumes:
+    #  - ./store:/app
     ports:
-     - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: store
-      MONGO_INITDB_ROOT_PASSWORD: 12345
-      MONGO_INITDB_DATABASE: admin
-    volumes:
-      - ./store/mongo-store-init.js:/docker-entrypoint-initdb.d/mongo-store-init.js
-      - mongo_volume:/data/db_store
-
-  mongo_order:
-    image: mongo
-    container_name: db_order
-    ports:
-     - "27018:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: order
-      MONGO_INITDB_ROOT_PASSWORD: 12345
-      MONGO_INITDB_DATABASE: admin
-    volumes:
-      - ./order/mongo-order-init.js:/docker-entrypoint-initdb.d/mongo-order-init.js
-      - mongo_volume:/data/db_order
-
-  
-  mongo_menu:
-    image: mongo
-    container_name: db_menu
-    command: mongod --port 27019
-    # ports:
-    #     - "27019:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: menu
-      MONGO_INITDB_ROOT_PASSWORD: 12345
-      MONGO_INITDB_DATABASE: admin
-    volumes:
-      - ./menu/mongo-menu-init.js:/docker-entrypoint-initdb.d/mongo-menu-init.js
-      - mongo_volume:/data/db_menu
-  
-  
-  
-  # store:
-  #   build: ./store
-  #   command: python3 store.py
-  #   depends_on:
-  #     - mongo_store
-  #   volumes:
-  #     - ./store:/app
-  #   ports:
-  #     - "5000:15000"
-  #   container_name: api_store
+      - "5002:15002"
+    container_name: api_store
     
 
-  # order:
-  #   build: ./order
-  #   command: python3 order.py
-  #   depends_on:
-  #     - mongo_order
-  #   volumes:
-  #     - ./order:/app
-  #   ports:
-  #     - "5001:15001"
-  #   container_name: api_order
+  order:
+    build: ./order
+    #command: python3 order.py
+    depends_on:
+      - mongo_order
+    environment:
+      # MONGODB_DATABASE: 
+      
+      MONGODB_USERNAME: order
+      MONGODB_PASSWORD: 12345
+      MONGO_SERVER_HOST: db_order
+      MONGO_SERVER_PORT: '27018'
+    #volumes:
+    #  - ./order:/app
+    ports:
+      - "5001:15001"
+    container_name: api_order
     
 
   menu:
@@ -86,12 +56,47 @@ services:
     # volumes:
     #     - ./menu:/app
     ports:
-      - "5002:15000"
+      - "5000:15000"
     
     container_name: api_menu
 
 
+  mongo_store:
+    image: mongo
+    container_name: db_store
+    command: mongod --port 27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: store
+      MONGO_INITDB_ROOT_PASSWORD: 12345
+      MONGO_INITDB_DATABASE: admin
+    volumes:
+      - ./store/mongo-store-init.js:/docker-entrypoint-initdb.d/mongo-store-init.js
+      - mongo_volume:/data/db_store
 
+  mongo_order:
+    image: mongo
+    container_name: db_order
+    command: mongod --port 27018
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: order
+      MONGO_INITDB_ROOT_PASSWORD: 12345
+      MONGO_INITDB_DATABASE: admin
+    volumes:
+      - ./order/mongo-order-init.js:/docker-entrypoint-initdb.d/mongo-order-init.js
+      - mongo_volume:/data/db_order
+
+  
+  mongo_menu:
+    image: mongo
+    container_name: db_menu
+    command: mongod --port 27019
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: menu
+      MONGO_INITDB_ROOT_PASSWORD: 12345
+      MONGO_INITDB_DATABASE: admin
+    volumes:
+      - ./menu/mongo-menu-init.js:/docker-entrypoint-initdb.d/mongo-menu-init.js
+      - mongo_volume:/data/db_menu
 
   
 networks:
