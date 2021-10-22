@@ -25,14 +25,25 @@ services:
     
 
   menu:
-    build: .
+    build: ./menu
     # command: python3 menu.py
     depends_on:
       - mongo_menu
+    # command: "docker run --rm --network project_gp5 -e MONGO_USERNAME=menu -e MONGO_PASSWORD=12345 -e MONGO_SERVER_HOST='db_menu' -e MONGO_SERVER_PORT='27019' -p 5002:15000 menu"
+    environment:
+      # MONGODB_DATABASE: 
+      
+      MONGODB_USERNAME: menu
+      MONGODB_PASSWORD: 12345
+      MONGO_SERVER_HOST: db_menu
+      MONGO_SERVER_PORT: '27019'
+    links:
+      - mongo_menu
     # volumes:
-    #   - ./menu:/app
+    #     - ./menu:/app
     ports:
       - "5002:15000"
+    
     container_name: api_menu
 
 
@@ -66,8 +77,9 @@ services:
   mongo_menu:
     image: mongo
     container_name: db_menu
-    ports:
-     - "27019:27017"
+    command: mongod --port 27019
+    # ports:
+    #     - "27019:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: menu
       MONGO_INITDB_ROOT_PASSWORD: 12345
