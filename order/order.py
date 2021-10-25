@@ -45,8 +45,9 @@ def output(result):
 
 @app.route('/')
 def todo():
+    db = connect_order_db()
     try:
-        serverInfo = client.server_info()
+        serverInfo = db.server_info()
     except:
         return "Server not available"
     return f"Connect to the MongoDB server."
@@ -134,7 +135,15 @@ def add_order(storeID):
     else:
         return jsonify(message="Please check Store ID")
 
+@app.route ('/orders/<OrderID>/remove')
+def Remove_order(OrderID):
+    db = connect_order_db()
+    if (db['order'].count_documents({"order_id": OrderID}) > 0):
+        db['order'].delete_one({'order_id':OrderID})
+        return jsonify({'order_id':OrderID, 'stage':"Removed"})
+    else:
+        return jsonify(message="Cannot find the order")
+
 if __name__ == "__main__":
     #this Python flask REST API listen at port 15001 at 0.0.0.0 within the container.
-    client = connect_order_db()
     app.run(host='0.0.0.0', port=15001, debug=True)
