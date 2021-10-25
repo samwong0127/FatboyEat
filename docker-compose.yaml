@@ -1,5 +1,44 @@
 version: "3.3"
 services:
+
+
+  mongo_store:
+    image: mongo
+    container_name: db_store
+    command: mongod --port 27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: store
+      MONGO_INITDB_ROOT_PASSWORD: 12345
+      MONGO_INITDB_DATABASE: admin
+    volumes:
+      - ./store/mongo-store-init.js:/docker-entrypoint-initdb.d/mongo-store-init.js
+      - mongo_volume:/data/db_store
+
+  mongo_order:
+    image: mongo
+    container_name: db_order
+    command: mongod --port 27018
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: order
+      MONGO_INITDB_ROOT_PASSWORD: 12345
+      MONGO_INITDB_DATABASE: admin
+    volumes:
+      - ./order/mongo-order-init.js:/docker-entrypoint-initdb.d/mongo-order-init.js
+      - mongo_volume:/data/db_order
+
+  
+  mongo_menu:
+    image: mongo
+    container_name: db_menu
+    command: mongod --port 27019
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: menu
+      MONGO_INITDB_ROOT_PASSWORD: 12345
+      MONGO_INITDB_DATABASE: admin
+    volumes:
+      - ./menu/mongo-menu-init.js:/docker-entrypoint-initdb.d/mongo-menu-init.js
+      - mongo_volume:/data/db_menu
+      
   store:
     build: ./store
     #command: python3 store.py
@@ -61,42 +100,7 @@ services:
     container_name: api_menu
 
 
-  mongo_store:
-    image: mongo
-    container_name: db_store
-    command: mongod --port 27017
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: store
-      MONGO_INITDB_ROOT_PASSWORD: 12345
-      MONGO_INITDB_DATABASE: admin
-    volumes:
-      - ./store/mongo-store-init.js:/docker-entrypoint-initdb.d/mongo-store-init.js
-      - mongo_volume:/data/db_store
 
-  mongo_order:
-    image: mongo
-    container_name: db_order
-    command: mongod --port 27018
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: order
-      MONGO_INITDB_ROOT_PASSWORD: 12345
-      MONGO_INITDB_DATABASE: admin
-    volumes:
-      - ./order/mongo-order-init.js:/docker-entrypoint-initdb.d/mongo-order-init.js
-      - mongo_volume:/data/db_order
-
-  
-  mongo_menu:
-    image: mongo
-    container_name: db_menu
-    command: mongod --port 27019
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: menu
-      MONGO_INITDB_ROOT_PASSWORD: 12345
-      MONGO_INITDB_DATABASE: admin
-    volumes:
-      - ./menu/mongo-menu-init.js:/docker-entrypoint-initdb.d/mongo-menu-init.js
-      - mongo_volume:/data/db_menu
 
   
 networks:
