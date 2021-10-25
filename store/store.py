@@ -32,7 +32,7 @@ def whereami():
 # Return a JSON object with all attributes of a specific store                    
 @app.route ('/stores/<store_id>', methods=['GET'])
 def get_store_with_id(store_id):
-    stores = list(db.store.find({"store_id":store_id}.{"_id":0}))
+    stores = list(db.store.find({"store_id":store_id}, {"_id":0}))
     if len(stores) == 0:
         return jsonify({"Error":"Store not found"}), 404
     else:
@@ -41,7 +41,7 @@ def get_store_with_id(store_id):
 # Return a JSON object with all attributes of a store with a specific category                    
 @app.route ('/stores/<categories>', methods=['GET'])
 def get_store_with_category(categories):
-    stores = list(db.store.find({"categories":categories}.{"_id":0}))
+    stores = list(db.store.find({"categories":categories}, {"_id":0}))
     if len(stores) == 0:
         return jsonify({"Error":"No such category"}), 404
     else:
