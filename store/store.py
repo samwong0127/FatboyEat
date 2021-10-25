@@ -39,7 +39,7 @@ def get_store_with_id(store_id):
         return jsonify((stores)), 200
 
 # Return a JSON object with all attributes of a store with a specific category                    
-@app.route ('/stores/<categories>', methods=['GET'])
+@app.route ('/stores/category/<categories>', methods=['GET'])
 def get_store_with_category(categories):
     stores = list(db.store.find({"categories":categories}, {"_id":0}))
     if len(stores) == 0:
