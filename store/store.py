@@ -40,14 +40,7 @@ def store():
         result.append(temp)
     return jsonify(result),200
 
-# Return a JSON object with all attributes of a specific store                    
-@app.route ('/stores/<store_id>', methods=['GET'])
-def store(<store_id>):
-    stores = list(db.store.find({"store_id":store_id}.{"_id":0}))
-    if len(stores) == 0:
-        return jsonify({"Error":"Store not found"}), 404
-    else:
-        return jsonify(list(stores)), 200
+
 
                     
 
