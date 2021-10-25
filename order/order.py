@@ -56,6 +56,12 @@ def todo():
 def group():
     return jsonify({"group_number": "5", "group_members":[{"Name": "Wong Pan Chi", "Student_ID": "18063466D"},{"Name": "Wong Kin Sang", "Student_ID": "18051915D"},{"Name": "Yuen Chun Ming", "Student_ID": "18059819D"},{"Name": "Sin Kwo Yin", "Student_ID": "18059048D"}]}), 200
 
+# Return the API using
+@app.route ('/api', methods=['GET'])
+def whereami():
+    return jsonify({"API":"order"}), 200
+
+
 #/orders: Return a JSON object with all the orders’ attributes
 @app.route ('/orders/<orderID>/list', methods=['GET'])
 def each_order(orderID):
