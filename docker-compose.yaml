@@ -12,7 +12,7 @@ services:
       MONGO_SERVER_HOST: db_store
       MONGO_SERVER_PORT: '27017'
     # volumes:
-    #   - ./store:/app
+    #   - ./store:/store
     # ports:
     #   - "15002:15002"
     container_name: api_store
@@ -28,8 +28,8 @@ services:
       MONGODB_PASSWORD: 12345
       MONGO_SERVER_HOST: db_order
       MONGO_SERVER_PORT: '27018'
-    #volumes:
-    #  - ./order:/app
+    # volumes:
+    #  - ./order:/order
     # ports:
     #   - "15001:15001"
     container_name: api_order
@@ -48,7 +48,7 @@ services:
     links:
       - mongo_menu
     # volumes:
-    #     - ./menu:/app
+    #     - ./menu:/menu
     # ports:
     #   - "15000:15000"
     container_name: api_menu
@@ -77,7 +77,7 @@ services:
       - ./order/mongo-order-init.js:/docker-entrypoint-initdb.d/mongo-order-init.js
       - mongo_volume:/data/db_order
 
-  
+
   mongo_menu:
     image: mongo
     container_name: db_menu
@@ -102,9 +102,40 @@ services:
         - order
         - store
 
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    restart: always
+    depends_on:
+      - prometheus
+    ports:
+      - '3000:3000'
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - monitor
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yaml:/etc/prometheus/prometheus.yaml
+      - prometheus_data:/var/lib/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yaml'
+    ports:
+      - '9090:9090'
+    networks:
+      - monitor
+
 networks:
   default:
     name: project_gp5
+  monitor:
+    driver: bridge
+
 volumes:
   mongo_volume:
     name: mongo_vol
+  prometheus_data: {}
+  grafana_data: {}
