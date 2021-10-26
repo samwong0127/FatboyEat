@@ -29,6 +29,15 @@ def group():
 def whereami():
     return jsonify({"API":"store"}), 200
 
+# Return a JSON object with all attributes of all store sort by store_id                  
+@app.route ('/stores', methods=['GET'])
+def get_store():
+    stores = list(db.store.find({},{"_id" : 0}).sort("store_id", 1))
+    if len(stores) == 0:
+        return jsonify({"Error":"Store not found"}), 404
+    else:
+        return jsonify((stores)), 200
+
 # Return a JSON object with all attributes of a specific store                    
 @app.route ('/stores/<store_id>', methods=['GET'])
 def get_store_with_id(store_id):

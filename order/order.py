@@ -4,13 +4,6 @@ from pymongo import MongoClient
 import json
 
 app = Flask(__name__)
-"""
-port_number=os.environ['MONGO_SERVER_PORT']
-#connect to MongoDB Server
-client = MongoClient(host=os.environ['MONGO_SERVER_HOST'], port=int(port_number), username=os.environ['MONGO_USERNAME'], password=os.environ['MONGO_PASSWORD'])
-#switch to db fakeUberEat
-db = client.fakeUberEat
-"""
 
 #connect to MongoDB Server
 client = MongoClient(host='db_order', port=27018, username='order', password='12345')
@@ -26,7 +19,6 @@ def output(result):
 
 @app.route('/')
 def todo():
-    #db = connect_order_db()
     try:
         serverInfo = client.server_info()
     except:
@@ -47,8 +39,6 @@ def whereami():
 #/orders: Return a JSON object with all the orders’ attributes
 @app.route ('/orders/<orderID>/list', methods=['GET'])
 def each_order(orderID):
-    #The orders sorted in ascending order of order ID.
-    #db = connect_order_db()
     orders =db['order'].find({"order_id": orderID},{"_id" : 0})
     result = []
     for order in orders:
@@ -58,15 +48,12 @@ def each_order(orderID):
                 temp[key] = order[key]
             else:
                 temp[key] = str(order[key])
-
         result.append(temp)
-
     return output(result)
 
 @app.route ('/orders', methods=['GET'])
 def order():
     #The orders sorted in ascending order of order ID.
-    #db = connect_order_db()
     orders =db['order'].find({},{"_id" : 0}).sort("order_id", 1)
     result = []
     for order in orders:
@@ -76,9 +63,7 @@ def order():
                 temp[key] = order[key]
             else:
                 temp[key] = str(order[key])
-
         result.append(temp)
-
     return output(result)
 
 @app.route ('/orders/shoplist', methods=['GET'])
@@ -93,24 +78,18 @@ def shop_list():
                 temp[key] = order[key]
             else:
                 temp[key] = str(order[key])
-
         result.append(temp)
-
     return output(result)
 
 @app.route ('/orders/<storeID>/addorder')
 def add_order(storeID):
-    #db = connect_order_db()
     order_id = "00001"
     while (db["order"].count_documents({"order_id": order_id}) > 0):
         order_id = '{:05d}'.format(int(order_id) + 1)
-        #print("order id = ", order_id)
 
     if (db["store_list"].count_documents({"store_id": storeID}) == 1):
         store = db['store_list'].find_one({"store_id": storeID})
         store_name = str(store['store_name'])
-
-        
         db['order'].insert_one({'order_id': order_id, 'store_id': storeID, 'store_name': store_name, 'customer_id': '11111'})
         return jsonify({'order_id':order_id, 'stage':"success"})
     else:
