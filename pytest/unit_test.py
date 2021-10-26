@@ -25,6 +25,7 @@ def test_order_returningAttribute():
     assert response.status_code == 200
     assert j[0]['order_id'] == "00001"
 
+'''
 def test_order_addOrder():
     store_id = '00001'
     #order_id = "00001"
@@ -34,5 +35,5 @@ def test_order_addOrder():
     # {'order_id':order_id, 'stage':"success"}
     assert j['stage'] == 'success'
     assert j['order_id'] == '00001'
-
+'''
     
