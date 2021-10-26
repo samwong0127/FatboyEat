@@ -4,39 +4,10 @@ from pymongo import MongoClient
 import json
 
 app = Flask(__name__)
-# connect to mongo and return the db 'university'
-def uber_eat_db():
-    # host = os.environ['MONGO_SERVER_HOST']
-    # usr = os.environ['MONGO_USERNAME']
-    # pwd = os.environ['MONGO_PASSWORD']
-    # port = int(os.environ['MONGO_SERVER_PORT'])
 
-    # try if we can connect to db.
-    try:
-        client = MongoClient(host="db_menu",
-                            port=27019, 
-                            username="menu", 
-                            password="12345",
-                            serverSelectionTimeoutMS=1000)
-        client.server_info()
-    # print the connection error and exit.
-    except Exception as e:
-        print("Could not connect to server:")
-        print(e)
-        exit(0)
-
-    # return db after we connected server.
-    db = client["fakeUberEat"]
-    return db
-db = uber_eat_db()
-menu = db['menu'].find({"store_id": "00001"},{"_id" : 0})
-for item in menu:
-    print(item)
-# port_number=os.environ['MONGO_SERVER_PORT']
-# #connect to MongoDB Server
-# client = MongoClient(host=os.environ['MONGO_SERVER_HOST'], port=int(port_number), username=os.environ['MONGO_USERNAME'], password=os.environ['MONGO_PASSWORD'])
-# #switch to db fakeUberEat
-# db = client.fakeUberEat
+client = MongoClient(host='db_menu', port=27019, username='menu', password='12345')
+#switch to db fakeUberEat
+db = client.fakeUberEat
 
 @app.route('/')
 def todo():
@@ -63,7 +34,7 @@ def whereami():
 def get_menu(store_id):
     #The menus sorted in ascending order of store ID.
     # menus =db.menu.find({},{"_id" : 0}).sort("store_id", 1)
-    db = uber_eat_db()
+    #db = uber_eat_db()
     menu = db['menu'].find({"store_id": store_id})
 
     
@@ -126,26 +97,4 @@ def update_item(store_id, item_id):
     return jsonify(result),200
     
 if __name__ == "__main__":
-    # setup the environment variables for connection.
-    # host = os.environ['MONGO_SERVER_HOST']
-    # usr = os.environ['MONGO_USERNAME']
-    # pwd = os.environ['MONGO_PASSWORD']
-    # port = int(os.environ['MONGO_SERVER_PORT'])
-
-    # if one of the environment variables is wrong, connection fails and exit.
-    try:
-        client = MongoClient(host="db_menu",
-                            port=27019, 
-                            username="menu", 
-                            password="12345",
-                            serverSelectionTimeoutMS=1000)
-        client.server_info()
-        print("connected to server")
-        print("connected to server")
-        print("connected to server")
-    except Exception as e:
-        print("Could not connect to server. Please check the host/port/username/password:")
-        print(e)
-        exit(0)
-    #this Python flask REST API listen at port 15000 at 0.0.0.0 within the container.
     app.run(host='0.0.0.0', port=15000, debug=True)

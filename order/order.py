@@ -11,30 +11,11 @@ client = MongoClient(host=os.environ['MONGO_SERVER_HOST'], port=int(port_number)
 #switch to db fakeUberEat
 db = client.fakeUberEat
 """
-def connect_order_db():
-    # host = os.environ['MONGO_SERVER_HOST']
-    # usr = os.environ['MONGO_USERNAME']
-    # pwd = os.environ['MONGO_PASSWORD']
-    # port = int(os.environ['MONGO_SERVER_PORT'])
 
-    # try if we can connect to db.
-    try:
-        client = MongoClient(host="db_order",
-                            port=27018, 
-                            username="order", 
-                            password="12345",
-                            serverSelectionTimeoutMS=1000)
-        client.server_info()
-    # print the connection error and exit.
-    except Exception as e:
-        print("Could not connect to server:")
-        print(e)
-        exit(0)
-
-    # return db after we connected server.
-    db = client["fakeUberEat"]
-    return db
-db = connect_order_db()
+#connect to MongoDB Server
+client = MongoClient(host='db_order', port=27018, username='order', password='12345')
+#switch to db fakeUberEat
+db = client.fakeUberEat
 
 def output(result):
     if not bool(result):
@@ -45,9 +26,9 @@ def output(result):
 
 @app.route('/')
 def todo():
-    db = connect_order_db()
+    #db = connect_order_db()
     try:
-        serverInfo = db.server_info()
+        serverInfo = client.server_info()
     except:
         return "Server not available"
     return f"Connect to the MongoDB server."
@@ -67,7 +48,7 @@ def whereami():
 @app.route ('/orders/<orderID>/list', methods=['GET'])
 def each_order(orderID):
     #The orders sorted in ascending order of order ID.
-    db = connect_order_db()
+    #db = connect_order_db()
     orders =db['order'].find({"order_id": orderID},{"_id" : 0})
     result = []
     for order in orders:
@@ -85,7 +66,7 @@ def each_order(orderID):
 @app.route ('/orders', methods=['GET'])
 def order():
     #The orders sorted in ascending order of order ID.
-    db = connect_order_db()
+    #db = connect_order_db()
     orders =db['order'].find({},{"_id" : 0}).sort("order_id", 1)
     result = []
     for order in orders:
@@ -102,7 +83,7 @@ def order():
 
 @app.route ('/orders/shoplist', methods=['GET'])
 def shop_list():
-    db = connect_order_db()
+    #db = connect_order_db()
     orders =db['store_list'].find({},{"_id" : 0})
     result = []
     for order in orders:
@@ -119,7 +100,7 @@ def shop_list():
 
 @app.route ('/orders/<storeID>/addorder')
 def add_order(storeID):
-    db = connect_order_db()
+    #db = connect_order_db()
     order_id = "00001"
     while (db["order"].count_documents({"order_id": order_id}) > 0):
         order_id = '{:05d}'.format(int(order_id) + 1)
@@ -137,7 +118,7 @@ def add_order(storeID):
 
 @app.route ('/orders/<OrderID>/remove')
 def Remove_order(OrderID):
-    db = connect_order_db()
+    #db = connect_order_db()
     if (db['order'].count_documents({"order_id": OrderID}) > 0):
         db['order'].delete_one({'order_id':OrderID})
         return jsonify({'order_id':OrderID, 'stage':"Removed"})
