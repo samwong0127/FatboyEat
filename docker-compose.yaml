@@ -5,12 +5,15 @@ networks:
     name: project_gp5
   monitor:
     driver: bridge
+  elk:
+    driver: bridge
 
 volumes:
   mongo_volume:
     name: mongo_vol
   prometheus_data: {}
   grafana_data: {}
+  elasticsearch:
 
 services:
   store:
@@ -29,7 +32,9 @@ services:
     ports:
       - "15002:15002"
     container_name: api_store
-    
+    networks:
+      - elk
+
   order:
     build: ./order
     depends_on:
@@ -46,6 +51,8 @@ services:
     ports:
       - "15001:15001"
     container_name: api_order
+    networks:
+      - elk
     
   menu:
     build: ./menu
@@ -65,6 +72,8 @@ services:
     ports:
       - "15000:15000"
     container_name: api_menu
+    networks:
+      - elk
 
   mongo_store:
     image: mongo
@@ -77,6 +86,8 @@ services:
     volumes:
       - ./store/mongo-store-init.js:/docker-entrypoint-initdb.d/mongo-store-init.js
       - mongo_volume:/data/db_store
+    networks:
+      - elk
 
   mongo_order:
     image: mongo
@@ -89,7 +100,8 @@ services:
     volumes:
       - ./order/mongo-order-init.js:/docker-entrypoint-initdb.d/mongo-order-init.js
       - mongo_volume:/data/db_order
-
+    networks:
+      - elk
 
   mongo_menu:
     image: mongo
@@ -102,19 +114,110 @@ services:
     volumes:
       - ./menu/mongo-menu-init.js:/docker-entrypoint-initdb.d/mongo-menu-init.js
       - mongo_volume:/data/db_menu
+    networks:
+      - elk
 
-  web:
+  nginx:
     image: nginx
     volumes:
-        - ./default.conf:/etc/nginx/conf.d/default.conf
+      # - ./nginx/config/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/config:/etc/nginx/conf.d
+      - ./nginx/log:/var/log/nginx
     command: /bin/bash -c "nginx -g 'daemon off;'" 
     ports:
-        - 20080:80
+      - 20080:80
     depends_on:
-        - menu
-        - order
-        - store
-    
+      - menu
+      - order
+      - store
+    networks:
+      - elk
+
+  elasticsearch:
+    build:
+      context: elasticsearch/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    volumes:
+      - type: bind
+        source: ./elasticsearch/config/elasticsearch.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+        read_only: true
+      - type: volume
+        source: elasticsearch
+        target: /usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      ELASTIC_PASSWORD: changeme
+    networks:
+      - elk
+
+  logstash:
+    build:
+      context: logstash/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    volumes:
+      - type: bind
+        source: ./logstash/config/logstash.yml
+        target: /usr/share/logstash/config/logstash.yml
+        read_only: true
+      - type: bind
+        source: ./logstash/pipeline
+        target: /usr/share/logstash/pipeline
+        read_only: true
+    ports:
+      - "5000:5000"
+      - "9600:9600"
+    expose: 
+      - "5044"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    build:
+      context: kibana/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    volumes:
+      - type: bind
+        source: ./kibana/config/kibana.yml
+        target: /usr/share/kibana/config/kibana.yml
+        read_only: true
+    ports:
+      - "5601:5601"
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
+  filebeat:
+    build: ./filebeat
+    entrypoint: "filebeat -e -strict.perms=false"
+    volumes:
+      - ./filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml
+      - ./nginx/log:/var/log/nginx
+    networks:
+      - elk
+    depends_on: 
+      - menu
+      - store
+      - order
+      - nginx
+      - logstash
+      - elasticsearch
+      - kibana
+    links: 
+      - logstash
 
   grafana:
     image: grafana/grafana
@@ -143,5 +246,3 @@ services:
       - '9090:9090'
     networks:
       - monitor
-
-
