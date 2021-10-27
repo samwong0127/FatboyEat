@@ -1,0 +1,32 @@
+# global config
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+# A scrape configuration containing exactly one endpoint to scrape
+scrape_configs:
+  - job_name: 'web'
+    static_configs:
+      - targets:
+        - 'localhost:20080'
+        - 'web:20080'
+
+  - job_name: 'menu'
+    static_configs:
+      - targets: ['api_menu:15000']
+
+  - job_name: 'order'
+    static_configs:
+      - targets: ['api_order:15001']
+
+  - job_name: 'store'
+    static_configs:
+      - targets: ['api_store:15002']
+
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['prometheus:9090']
+
+  - job_name: 'grafana'
+    static_configs:
+      - targets: ['grafana:3000']
