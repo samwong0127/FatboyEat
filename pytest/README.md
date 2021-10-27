@@ -1,3 +1,4 @@
+## Install pytest before running the script
 # Run the followings to test:
 Go to dir:  
 "cd pytest"  
