@@ -1,9 +1,11 @@
 import os
 from flask import Flask, jsonify, request
 from pymongo import MongoClient
+from prometheus_flask_exporter import PrometheusMetrics
 import json
 
 app = Flask(__name__)
+metrics = PrometheusMetrics(app)
 
 port_number=os.environ['MONGO_SERVER_PORT']
 #connect to MongoDB Server
@@ -110,4 +112,4 @@ def update_item(store_id, dishes_id):
     
 if __name__ == "__main__":
     #this Python flask REST API listen at port 15000 at 0.0.0.0 within the container.
-    app.run(host='0.0.0.0', port=15000, debug=True)
+    app.run(host='0.0.0.0', port=15000)

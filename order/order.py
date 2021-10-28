@@ -1,9 +1,11 @@
 import os
 from flask import Flask, jsonify, request
 from pymongo import MongoClient
+from prometheus_flask_exporter import PrometheusMetrics
 import json
 
 app = Flask(__name__)
+metrics = PrometheusMetrics(app)
 
 #connect to MongoDB Server
 client = MongoClient(host='db_order', port=27018, username='order', password='12345')
@@ -106,4 +108,4 @@ def Remove_order(OrderID):
 
 if __name__ == "__main__":
     #this Python flask REST API listen at port 15001 at 0.0.0.0 within the container.
-    app.run(host='0.0.0.0', port=15001, debug=True)
+    app.run(host='0.0.0.0', port=15001)
