@@ -5,21 +5,19 @@ global:
 
 # A scrape configuration containing exactly one endpoint to scrape
 scrape_configs:
-  - job_name: 'web'
+  - job_name: 'nginx'
     static_configs:
-      - targets:
-        - 'localhost:20080'
-        - 'web:20080'
+      - targets: ['nginx:20080']
 
-  - job_name: 'menu'
+  - job_name: 'api_menu'
     static_configs:
       - targets: ['api_menu:15000']
 
-  - job_name: 'order'
+  - job_name: 'api_order'
     static_configs:
       - targets: ['api_order:15001']
 
-  - job_name: 'store'
+  - job_name: 'api_store'
     static_configs:
       - targets: ['api_store:15002']
 
