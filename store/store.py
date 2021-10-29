@@ -60,6 +60,10 @@ def get_store_with_category(categories):
 
 
 
+
+                    
+
 if __name__ == "__main__":
     #this Python flask REST API listen at port 15002 at 0.0.0.0 within the container.
     app.run(host='0.0.0.0', port=15002)
+
