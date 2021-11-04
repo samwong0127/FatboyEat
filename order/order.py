@@ -12,13 +12,6 @@ client = MongoClient(host='db_order', port=27018, username='order', password='12
 #switch to db fakeUberEat
 db = client.fakeUberEat
 
-def output(result):
-    if not bool(result):
-        errormsg = {'error': 'not found'}
-        return jsonify(errormsg), 404
-    else:
-        return jsonify(result)
-
 @app.route('/')
 def todo():
     try:
@@ -37,52 +30,44 @@ def group():
 def whereami():
     return jsonify({"API":"order"}), 200
 
-
-#/orders: Return a JSON object with all the orders’ attributes
-@app.route ('/orders/<orderID>/list', methods=['GET'])
-def each_order(orderID):
-    orders =db['order'].find({"order_id": orderID},{"_id" : 0})
-    result = []
-    for order in orders:
-        temp = {}
-        for key in order.keys():
-            if (type(order[key]) != str):
-                temp[key] = order[key]
-            else:
-                temp[key] = str(order[key])
-        result.append(temp)
-    return output(result)
-
 @app.route ('/orders', methods=['GET'])
 def order():
     #The orders sorted in ascending order of order ID.
-    orders =db['order'].find({},{"_id" : 0}).sort("order_id", 1)
-    result = []
-    for order in orders:
-        temp = {}
-        for key in order.keys():
-            if (type(order[key]) != str):
-                temp[key] = order[key]
-            else:
-                temp[key] = str(order[key])
-        result.append(temp)
-    return output(result)
+    orders =list(db.order.find({},{"_id" : 0}).sort("order_id", 1))
+    if len(orders) == 0:
+        return jsonify({"Error":"order not found"}), 404
+    else:
+        return jsonify((orders)), 200
+
+#/orders: Return a JSON object with all the orders’ attributes of a orderID
+@app.route ('/orders/<order_id>/list', methods=['GET'])
+def each_order(order_id):
+    orders = list(db.order.find({"order_id": order_id},{"_id" : 0}))
+    if len(orders) == 0:
+        return jsonify({"Error":"order not found"}), 404
+    else:
+        return jsonify((orders)), 200
 
 @app.route ('/orders/shoplist', methods=['GET'])
 def shop_list():
-    #db = connect_order_db()
-    orders =db['store_list'].find({},{"_id" : 0})
-    result = []
-    for order in orders:
-        temp = {}
-        for key in order.keys():
-            if (type(order[key]) != str):
-                temp[key] = order[key]
-            else:
-                temp[key] = str(order[key])
-        result.append(temp)
-    return output(result)
+    orders = list(db.store_list.find({},{"_id" : 0}))
+    if len(orders) == 0:
+        return jsonify({"Error":"order not found"}), 404
+    else:
+        return jsonify((orders)), 200
 
+@app.route ('/orders/<order_id>/remove', methods=['DELETE'])
+def Remove_order(order_id):
+    try:
+        dbResponse = db.order.delete_one({"order_id": order_id})
+        if dbResponse.deleted_count==1:
+            return jsonify({"message":"order deleted", "order_id":f"{order_id}"}),200
+        else:
+            return jsonify({"message":"order not found", "order_id":f"{order_id}"}),404
+    except:
+        return jsonify({"message":"sorry cannot delete order"}),500
+
+### Endpoint below may need to change
 @app.route ('/orders/<storeID>/addorder')
 def add_order(storeID):
     order_id = "00001"
@@ -96,15 +81,6 @@ def add_order(storeID):
         return jsonify({'order_id':order_id, 'stage':"success"})
     else:
         return jsonify(message="Please check Store ID")
-
-@app.route ('/orders/<OrderID>/remove')
-def Remove_order(OrderID):
-    #db = connect_order_db()
-    if (db['order'].count_documents({"order_id": OrderID}) > 0):
-        db['order'].delete_one({'order_id':OrderID})
-        return jsonify({'order_id':OrderID, 'stage':"Removed"})
-    else:
-        return jsonify(message="Cannot find the order")
 
 if __name__ == "__main__":
     #this Python flask REST API listen at port 15001 at 0.0.0.0 within the container.
