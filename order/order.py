@@ -9,8 +9,8 @@ metrics = PrometheusMetrics(app)
 
 #connect to MongoDB Server
 client = MongoClient(host='db_order', port=27018, username='order', password='12345')
-#switch to db fakeUberEat
-db = client.fakeUberEat
+#switch to db FatboyEat
+db = client.FatboyEat
 
 @app.route('/')
 def todo():

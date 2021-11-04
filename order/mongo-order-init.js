@@ -1,5 +1,5 @@
 db.auth('order', '12345')
-db = db.getSiblingDB('fakeUberEat')
+db = db.getSiblingDB('FatboyEat')
 
 db.createCollection('order');
 
