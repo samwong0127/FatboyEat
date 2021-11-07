@@ -9,8 +9,10 @@ metrics = PrometheusMetrics(app)
 
 #connect to MongoDB Server
 client = MongoClient(host='db_order', port=27018, username='order', password='12345')
+client2 = MongoClient(host='db_store', port=27017, username='store', password='12345')
 #switch to db fakeUberEat
 db = client.fakeUberEat
+storedb = client2.fakeUberEat
 
 def output(result):
     if not bool(result):
@@ -83,28 +85,38 @@ def shop_list():
         result.append(temp)
     return output(result)
 
-@app.route ('/orders/<storeID>/addorder')
+@app.route ('/addorder/stores/<storeID>', methods=['POST'])
 def add_order(storeID):
     order_id = "00001"
-    while (db["order"].count_documents({"order_id": order_id}) > 0):
-        order_id = '{:05d}'.format(int(order_id) + 1)
+    try:
+        data = request.json
+        while (db["order"].count_documents({"order_id": order_id}) > 0):
+            order_id = '{:05d}'.format(int(order_id) + 1)
 
-    if (db["store_list"].count_documents({"store_id": storeID}) == 1):
-        store = db['store_list'].find_one({"store_id": storeID})
-        store_name = str(store['store_name'])
-        db['order'].insert_one({'order_id': order_id, 'store_id': storeID, 'store_name': store_name, 'customer_id': '11111'})
-        return jsonify({'order_id':order_id, 'stage':"success"})
-    else:
-        return jsonify(message="Please check Store ID")
+        if (storedb["store"].count_documents({"store_id": storeID}) > 0):
+            # data.append({"order_id": order_id})
+            data["order_id"] = order_id
+            db['order'].insert_one(data)
+            return jsonify({'store_id':storeID, 'order_id':order_id, 'stage':"success"}), 201
+        else:
+            return jsonify({"message":"Please check Store ID", "store_id":f"{storeID}"}), 404
+        data.append({"order_id": order_id})
+        # db['order'].insert_one(data)
+        # return jsonify({'store_id':storeID, 'order_id':order_id, 'stage':"success"}), 201
+    except:
+        return jsonify({"message":"sorry cannot add order of this store", "store_id":f"{storeID}"}),500
 
-@app.route ('/orders/<OrderID>/remove')
+@app.route ('/deleteorder/orders/<OrderID>', methods=['DELETE'])
 def Remove_order(OrderID):
     #db = connect_order_db()
-    if (db['order'].count_documents({"order_id": OrderID}) > 0):
-        db['order'].delete_one({'order_id':OrderID})
-        return jsonify({'order_id':OrderID, 'stage':"Removed"})
-    else:
-        return jsonify(message="Cannot find the order")
+    try:
+        if (db['order'].count_documents({"order_id": OrderID}) > 0):
+            db['order'].delete_one({"order_id": OrderID})
+            return jsonify({'order_id':OrderID, 'stage':"Removed"}), 201
+        else:
+            return jsonify(message="Cannot find the order"), 404
+    except:
+        return jsonify({"message":"sorry cannot remove order of this store", "OrderID":f"{OrderID}"}),500
 
 if __name__ == "__main__":
     #this Python flask REST API listen at port 15001 at 0.0.0.0 within the container.
