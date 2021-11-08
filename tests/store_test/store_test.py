@@ -4,14 +4,19 @@ import json
 
 wrong_id = "wrongID"
 url = "http://localhost:20080/store"
-
+headers = {
+    'Content-Type':'application/json',
+    'Accept':'*/*',
+    'Connection':'keep-alive'
+}
 def test_store_api():
     response = requests.get(url+"/api")
     j = json.loads(response.text)
     assert response.status_code == 200
     #print(j['API'])
     assert j['API'] == "store"
-
+    
+def test_store_api_Err404():
     response = requests.get(url+"/idk_what_is_this")
     #j = json.loads(response.text)
     assert response.status_code == 404
@@ -29,6 +34,7 @@ def test_get_store_with_id():
     assert response.status_code == 200
     assert j[0]['store_id'] == store_id
 
+def test_get_store_with_id_Err404():
     response = requests.get(url+'/stores/'+wrong_id)
     j = json.loads(response.text)
     assert response.status_code == 404
@@ -41,3 +47,11 @@ def test_get_store_with_category():
     #print((j))
     assert response.status_code == 200
     assert j[0]['categories'] == category
+
+def test_get_store_with_category_Err404():
+    category = 'NoSuchCategory'
+    response = requests.get(url+'/stores/category/'+category)
+    j = json.loads(response.text)
+    #print((j))
+    assert response.status_code == 404
+    

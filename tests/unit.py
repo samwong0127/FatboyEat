@@ -9,7 +9,3 @@ from order_test.order_test import *
 * pytest this file will test everything
 *
 """
-
-
-
-
