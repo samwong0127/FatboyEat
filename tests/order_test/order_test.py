@@ -56,12 +56,13 @@ def test_order_addOrder():
     global order_id_temp 
     order_id_temp = j['order_id']
 
+# Test with a wrong store_id
 def test_order_addOrder_Err404():
-    # Test with a wrong store_id
     response = requests.post(url+'/addorder/stores/'+wrong_id, headers=headers, data=json.dumps(data))
     #j = json.loads(response.text)
     assert response.status_code == 404
 
+# Test the 500 case by not providing a header
 def test_order_addOrder_Err500():
     response = requests.post(url+'/addorder/stores/00001', data=json.dumps(data))
     #j = json.loads(response.text)
@@ -72,6 +73,7 @@ def test_order_removeOrder():
     response = requests.delete(url+'/deleteorder/orders/'+order_id_temp, headers=headers)
     assert response.status_code == 201
 
+# Test with a non-existing order_id
 def test_order_removeOrder_Err404():
     response = requests.delete(url+'/deleteorder/orders/'+order_id_temp, headers=headers)
     #j = json.loads(response.text)
@@ -81,6 +83,7 @@ def test_order_removeOrder_Err404():
     #j = json.loads(response.text)
     assert response.status_code == 404
 
+# Test the 500 case by not providing a header
 #def test_order_removeOrder_Err500():
 #    response = requests.delete(url+'/deleteorder/orders/00006')
 #    #j = json.loads(response.text)
