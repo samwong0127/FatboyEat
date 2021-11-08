@@ -22,10 +22,250 @@
   "fiscalYearStartMonth": 0,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 2,
+  "id": 1,
   "links": [],
   "liveNow": false,
   "panels": [
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 0,
+        "y": 0
+      },
+      "id": 123164,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.2.3",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "sum(flask_http_request_total)",
+          "format": "time_series",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Total request",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 6,
+        "y": 0
+      },
+      "id": 123165,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.2.3",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "sum(flask_http_request_total{instance=\"api_menu:15000\"})",
+          "format": "time_series",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Total request of Menu",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 12,
+        "y": 0
+      },
+      "id": 123166,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.2.3",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "sum(flask_http_request_total{instance=\"api_order:15001\"})",
+          "format": "time_series",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Total request of Order",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 18,
+        "y": 0
+      },
+      "id": 123167,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.2.3",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "sum(flask_http_request_total{instance=\"api_store:15002\"})",
+          "format": "time_series",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Total request of Store",
+      "type": "stat"
+    },
     {
       "collapsed": false,
       "datasource": null,
@@ -33,7 +273,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 0
+        "y": 6
       },
       "id": 123156,
       "panels": [],
@@ -96,7 +336,7 @@
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 1
+        "y": 7
       },
       "id": 123125,
       "options": {
@@ -178,7 +418,7 @@
         "h": 7,
         "w": 8,
         "x": 8,
-        "y": 1
+        "y": 7
       },
       "id": 123127,
       "options": {
@@ -260,7 +500,7 @@
         "h": 7,
         "w": 8,
         "x": 16,
-        "y": 1
+        "y": 7
       },
       "id": 123135,
       "options": {
@@ -342,7 +582,7 @@
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 8
+        "y": 14
       },
       "id": 123139,
       "options": {
@@ -423,7 +663,7 @@
         "h": 7,
         "w": 8,
         "x": 8,
-        "y": 8
+        "y": 14
       },
       "id": 123137,
       "options": {
@@ -504,7 +744,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 15
+        "y": 21
       },
       "id": 123131,
       "options": {
@@ -585,7 +825,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 15
+        "y": 21
       },
       "id": 123129,
       "options": {
@@ -667,7 +907,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 22
+        "y": 28
       },
       "id": 123133,
       "options": {
@@ -699,7 +939,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 29
+        "y": 35
       },
       "id": 123154,
       "panels": [],
@@ -762,7 +1002,7 @@
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 30
+        "y": 36
       },
       "id": 123141,
       "options": {
@@ -843,7 +1083,7 @@
         "h": 7,
         "w": 8,
         "x": 8,
-        "y": 30
+        "y": 36
       },
       "id": 123143,
       "options": {
@@ -924,7 +1164,7 @@
         "h": 7,
         "w": 8,
         "x": 16,
-        "y": 30
+        "y": 36
       },
       "id": 123144,
       "options": {
@@ -1005,7 +1245,7 @@
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 37
+        "y": 43
       },
       "id": 123145,
       "options": {
@@ -1086,7 +1326,7 @@
         "h": 7,
         "w": 8,
         "x": 8,
-        "y": 37
+        "y": 43
       },
       "id": 123146,
       "options": {
@@ -1167,7 +1407,7 @@
         "h": 7,
         "w": 8,
         "x": 16,
-        "y": 37
+        "y": 43
       },
       "id": 123147,
       "options": {
@@ -1248,7 +1488,7 @@
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 44
+        "y": 50
       },
       "id": 123148,
       "options": {
@@ -1329,7 +1569,7 @@
         "h": 7,
         "w": 8,
         "x": 8,
-        "y": 44
+        "y": 50
       },
       "id": 123150,
       "options": {
@@ -1410,7 +1650,7 @@
         "h": 7,
         "w": 8,
         "x": 16,
-        "y": 44
+        "y": 50
       },
       "id": 123149,
       "options": {
@@ -1442,7 +1682,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 51
+        "y": 57
       },
       "id": 123152,
       "panels": [],
@@ -1505,7 +1745,7 @@
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 52
+        "y": 58
       },
       "id": 123158,
       "options": {
@@ -1580,13 +1820,38 @@
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "flask_http_request_duration_seconds_count{instance=\"api_store:15002\", job=\"api_store\", method=\"GET\", path=\"/stores/category/Japanese\", status=\"200\"}"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 8,
-        "y": 52
+        "y": 58
       },
       "id": 123159,
       "options": {
@@ -1602,7 +1867,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "flask_http_request_duration_seconds_count{instance=\"api_store:15002\", job=\"api_store\", method=\"GET\", path=~\"/stores/.*\", status=\"200\"}",
+          "expr": "flask_http_request_duration_seconds_count{instance=\"api_store:15002\", job=\"api_store\", method=\"GET\", path=~\"/stores/.*\",path!~\"/stores/category/.*\", status=\"200\"}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -1667,7 +1932,7 @@
         "h": 7,
         "w": 8,
         "x": 16,
-        "y": 52
+        "y": 58
       },
       "id": 123160,
       "options": {
@@ -1683,7 +1948,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "flask_http_request_duration_seconds_count{instance=\"api_store:15002\", job=\"api_store\", method=\"GET\", path=~\"/stores/.*\", status=\"404\"}",
+          "expr": "flask_http_request_duration_seconds_count{instance=\"api_store:15002\", job=\"api_store\", method=\"GET\", path=~\"/stores/.*\",path!~\"/stores/category/.*\", status=\"404\"}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -1748,7 +2013,7 @@
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 59
+        "y": 65
       },
       "id": 123161,
       "options": {
@@ -1829,7 +2094,7 @@
         "h": 7,
         "w": 8,
         "x": 8,
-        "y": 59
+        "y": 65
       },
       "id": 123162,
       "options": {
@@ -1857,21 +2122,10 @@
     {
       "datasource": null,
       "gridPos": {
-        "h": 3,
+        "h": 8,
         "w": 24,
         "x": 0,
-        "y": 66
-      },
-      "id": 1,
-      "type": "welcome"
-    },
-    {
-      "datasource": null,
-      "gridPos": {
-        "h": 15,
-        "w": 12,
-        "x": 0,
-        "y": 69
+        "y": 72
       },
       "id": 3,
       "links": [],
@@ -1889,26 +2143,9 @@
       "tags": [],
       "title": "Dashboards",
       "type": "dashlist"
-    },
-    {
-      "datasource": null,
-      "gridPos": {
-        "h": 15,
-        "w": 12,
-        "x": 12,
-        "y": 69
-      },
-      "id": 4,
-      "links": [],
-      "options": {
-        "feedUrl": "https://grafana.com/blog/news.xml",
-        "showImage": true
-      },
-      "title": "Latest from the blog",
-      "type": "news"
     }
   ],
-  "refresh": "",
+  "refresh": "5s",
   "schemaVersion": 31,
   "style": "dark",
   "tags": [],
@@ -1916,11 +2153,11 @@
     "list": []
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {
-    "hidden": true,
+    "hidden": false,
     "refresh_intervals": [
       "5s"
     ],
@@ -1940,5 +2177,5 @@
   "timezone": "browser",
   "title": "COMP3122_project_dashboard",
   "uid": "loQdKR5nz",
-  "version": 48
+  "version": 7
 }

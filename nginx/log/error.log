@@ -38,3 +38,35 @@
 2021/11/08 01:36:13 [notice] 1#1: start worker processes
 2021/11/08 01:36:13 [notice] 1#1: start worker process 7
 2021/11/08 01:36:13 [notice] 1#1: start worker process 8
+2021/11/08 01:41:22 [notice] 1#1: using the "epoll" event method
+2021/11/08 01:41:22 [notice] 1#1: nginx/1.21.3
+2021/11/08 01:41:22 [notice] 1#1: built by gcc 8.3.0 (Debian 8.3.0-6) 
+2021/11/08 01:41:22 [notice] 1#1: OS: Linux 5.10.47-linuxkit
+2021/11/08 01:41:22 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2021/11/08 01:41:22 [notice] 1#1: start worker processes
+2021/11/08 01:41:22 [notice] 1#1: start worker process 7
+2021/11/08 01:41:22 [notice] 1#1: start worker process 8
+2021/11/08 06:20:52 [notice] 1#1: using the "epoll" event method
+2021/11/08 06:20:52 [notice] 1#1: nginx/1.21.3
+2021/11/08 06:20:52 [notice] 1#1: built by gcc 8.3.0 (Debian 8.3.0-6) 
+2021/11/08 06:20:52 [notice] 1#1: OS: Linux 5.10.47-linuxkit
+2021/11/08 06:20:52 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2021/11/08 06:20:52 [notice] 1#1: start worker processes
+2021/11/08 06:20:52 [notice] 1#1: start worker process 11
+2021/11/08 06:20:52 [notice] 1#1: start worker process 12
+2021/11/08 06:24:31 [notice] 1#1: using the "epoll" event method
+2021/11/08 06:24:31 [notice] 1#1: nginx/1.21.3
+2021/11/08 06:24:31 [notice] 1#1: built by gcc 8.3.0 (Debian 8.3.0-6) 
+2021/11/08 06:24:31 [notice] 1#1: OS: Linux 5.10.47-linuxkit
+2021/11/08 06:24:31 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2021/11/08 06:24:31 [notice] 1#1: start worker processes
+2021/11/08 06:24:31 [notice] 1#1: start worker process 7
+2021/11/08 06:24:31 [notice] 1#1: start worker process 8
+2021/11/08 07:17:29 [notice] 1#1: using the "epoll" event method
+2021/11/08 07:17:29 [notice] 1#1: nginx/1.21.3
+2021/11/08 07:17:29 [notice] 1#1: built by gcc 8.3.0 (Debian 8.3.0-6) 
+2021/11/08 07:17:29 [notice] 1#1: OS: Linux 5.10.47-linuxkit
+2021/11/08 07:17:29 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2021/11/08 07:17:29 [notice] 1#1: start worker processes
+2021/11/08 07:17:29 [notice] 1#1: start worker process 7
+2021/11/08 07:17:29 [notice] 1#1: start worker process 8
