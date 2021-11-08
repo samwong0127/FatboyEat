@@ -27,6 +27,20 @@
   "liveNow": false,
   "panels": [
     {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 123169,
+      "panels": [],
+      "title": "Total",
+      "type": "row"
+    },
+    {
       "datasource": null,
       "fieldConfig": {
         "defaults": {
@@ -54,7 +68,7 @@
         "h": 6,
         "w": 6,
         "x": 0,
-        "y": 0
+        "y": 1
       },
       "id": 123164,
       "options": {
@@ -76,7 +90,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(flask_http_request_total)",
+          "expr": "sum(flask_http_request_total)OR on() vector(0)",
           "format": "time_series",
           "interval": "",
           "legendFormat": "",
@@ -114,7 +128,7 @@
         "h": 6,
         "w": 6,
         "x": 6,
-        "y": 0
+        "y": 1
       },
       "id": 123165,
       "options": {
@@ -136,7 +150,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(flask_http_request_total{instance=\"api_menu:15000\"})",
+          "expr": "sum(flask_http_request_total{instance=\"api_menu:15000\"})OR on() vector(0)",
           "format": "time_series",
           "interval": "",
           "legendFormat": "",
@@ -174,7 +188,7 @@
         "h": 6,
         "w": 6,
         "x": 12,
-        "y": 0
+        "y": 1
       },
       "id": 123166,
       "options": {
@@ -196,7 +210,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(flask_http_request_total{instance=\"api_order:15001\"})",
+          "expr": "sum(flask_http_request_total{instance=\"api_order:15001\"})OR on() vector(0)",
           "format": "time_series",
           "interval": "",
           "legendFormat": "",
@@ -234,7 +248,7 @@
         "h": 6,
         "w": 6,
         "x": 18,
-        "y": 0
+        "y": 1
       },
       "id": 123167,
       "options": {
@@ -256,7 +270,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(flask_http_request_total{instance=\"api_store:15002\"})",
+          "expr": "sum(flask_http_request_total{instance=\"api_store:15002\"})OR on() vector(0)",
           "format": "time_series",
           "interval": "",
           "legendFormat": "",
@@ -273,7 +287,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 6
+        "y": 7
       },
       "id": 123156,
       "panels": [],
@@ -336,7 +350,7 @@
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 7
+        "y": 8
       },
       "id": 123125,
       "options": {
@@ -418,7 +432,7 @@
         "h": 7,
         "w": 8,
         "x": 8,
-        "y": 7
+        "y": 8
       },
       "id": 123127,
       "options": {
@@ -500,7 +514,7 @@
         "h": 7,
         "w": 8,
         "x": 16,
-        "y": 7
+        "y": 8
       },
       "id": 123135,
       "options": {
@@ -582,7 +596,7 @@
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 14
+        "y": 15
       },
       "id": 123139,
       "options": {
@@ -663,7 +677,7 @@
         "h": 7,
         "w": 8,
         "x": 8,
-        "y": 14
+        "y": 15
       },
       "id": 123137,
       "options": {
@@ -742,9 +756,9 @@
       },
       "gridPos": {
         "h": 7,
-        "w": 12,
-        "x": 0,
-        "y": 21
+        "w": 8,
+        "x": 16,
+        "y": 15
       },
       "id": 123131,
       "options": {
@@ -823,11 +837,11 @@
       },
       "gridPos": {
         "h": 7,
-        "w": 12,
-        "x": 12,
-        "y": 21
+        "w": 8,
+        "x": 4,
+        "y": 22
       },
-      "id": 123129,
+      "id": 123133,
       "options": {
         "legend": {
           "calcs": [],
@@ -838,17 +852,16 @@
           "mode": "single"
         }
       },
-      "pluginVersion": "8.2.3",
       "targets": [
         {
           "exemplar": true,
-          "expr": "flask_http_request_duration_seconds_count{instance=\"api_menu:15000\", job=\"api_menu\", method=\"POST\", path=~\"/stores/.*/menus/dishes/.*\", status=\"500\"}",
+          "expr": "flask_http_request_duration_seconds_count{instance=\"api_menu:15000\", job=\"api_menu\", method=\"POST\", path=~\"/stores/.*/menus/dishes/.*\", status=\"409\"}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
         }
       ],
-      "title": "POST /menu/stores/<store_id>/menus/dishes/<dishes_id> 500",
+      "title": "POST /menu/stores/<store_id>/menus/dishes/<dishes_id> 409",
       "type": "timeseries"
     },
     {
@@ -905,11 +918,11 @@
       },
       "gridPos": {
         "h": 7,
-        "w": 12,
-        "x": 0,
-        "y": 28
+        "w": 8,
+        "x": 12,
+        "y": 22
       },
-      "id": 123133,
+      "id": 123129,
       "options": {
         "legend": {
           "calcs": [],
@@ -920,16 +933,17 @@
           "mode": "single"
         }
       },
+      "pluginVersion": "8.2.3",
       "targets": [
         {
           "exemplar": true,
-          "expr": "flask_http_request_duration_seconds_count{instance=\"api_menu:15000\", job=\"api_menu\", method=\"POST\", path=~\"/stores/.*/menus/dishes/.*\", status=\"409\"}",
+          "expr": "flask_http_request_duration_seconds_count{instance=\"api_menu:15000\", job=\"api_menu\", method=\"POST\", path=~\"/stores/.*/menus/dishes/.*\", status=\"500\"}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
         }
       ],
-      "title": "POST /menu/stores/<store_id>/menus/dishes/<dishes_id> 409",
+      "title": "POST /menu/stores/<store_id>/menus/dishes/<dishes_id> 500",
       "type": "timeseries"
     },
     {
@@ -939,7 +953,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 35
+        "y": 29
       },
       "id": 123154,
       "panels": [],
@@ -1002,7 +1016,7 @@
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 36
+        "y": 30
       },
       "id": 123141,
       "options": {
@@ -1083,7 +1097,7 @@
         "h": 7,
         "w": 8,
         "x": 8,
-        "y": 36
+        "y": 30
       },
       "id": 123143,
       "options": {
@@ -1164,7 +1178,7 @@
         "h": 7,
         "w": 8,
         "x": 16,
-        "y": 36
+        "y": 30
       },
       "id": 123144,
       "options": {
@@ -1245,7 +1259,7 @@
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 43
+        "y": 37
       },
       "id": 123145,
       "options": {
@@ -1326,7 +1340,7 @@
         "h": 7,
         "w": 8,
         "x": 8,
-        "y": 43
+        "y": 37
       },
       "id": 123146,
       "options": {
@@ -1407,7 +1421,7 @@
         "h": 7,
         "w": 8,
         "x": 16,
-        "y": 43
+        "y": 37
       },
       "id": 123147,
       "options": {
@@ -1488,7 +1502,7 @@
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 50
+        "y": 44
       },
       "id": 123148,
       "options": {
@@ -1569,7 +1583,7 @@
         "h": 7,
         "w": 8,
         "x": 8,
-        "y": 50
+        "y": 44
       },
       "id": 123150,
       "options": {
@@ -1650,7 +1664,7 @@
         "h": 7,
         "w": 8,
         "x": 16,
-        "y": 50
+        "y": 44
       },
       "id": 123149,
       "options": {
@@ -1682,7 +1696,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 57
+        "y": 51
       },
       "id": 123152,
       "panels": [],
@@ -1745,7 +1759,7 @@
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 58
+        "y": 52
       },
       "id": 123158,
       "options": {
@@ -1851,7 +1865,7 @@
         "h": 7,
         "w": 8,
         "x": 8,
-        "y": 58
+        "y": 52
       },
       "id": 123159,
       "options": {
@@ -1932,7 +1946,7 @@
         "h": 7,
         "w": 8,
         "x": 16,
-        "y": 58
+        "y": 52
       },
       "id": 123160,
       "options": {
@@ -2013,7 +2027,7 @@
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 65
+        "y": 59
       },
       "id": 123161,
       "options": {
@@ -2094,7 +2108,7 @@
         "h": 7,
         "w": 8,
         "x": 8,
-        "y": 65
+        "y": 59
       },
       "id": 123162,
       "options": {
@@ -2125,7 +2139,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 72
+        "y": 66
       },
       "id": 3,
       "links": [],
@@ -2177,5 +2191,5 @@
   "timezone": "browser",
   "title": "COMP3122_project_dashboard",
   "uid": "loQdKR5nz",
-  "version": 7
+  "version": 1
 }
