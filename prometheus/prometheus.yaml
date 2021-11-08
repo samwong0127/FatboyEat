@@ -16,7 +16,7 @@ alerting:
 scrape_configs:
   - job_name: 'api_menu'
     static_configs:
-      - targets: ['api_menu:1500']
+      - targets: ['api_menu:15000']
 
   - job_name: 'api_order'
     static_configs:
