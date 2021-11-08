@@ -1,4 +1,4 @@
-# COMP3122-project
+# Fatboy Eat API
 
 # To run our application
 1. Run "docker-compose up" in folder: COMP3122-project
