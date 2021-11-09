@@ -257,12 +257,16 @@ services:
       - monitoring
 
   alertmanager:
-     image: prom/alertmanager
-     ports:
-       - 9093:9093
-     volumes:
-       - ./prometheus/alertmanager.yaml/:/etc/prometheus/alertmanager.yaml
-     restart: always
-     command:
-       - '--config.file=/etc/prometheus/alertmanager.yaml'
-      #  - '--storage.path=/alertmanager'
+      image: prom/alertmanager
+      container_name: alertmanagers
+      ports:
+        - 9093:9093
+      volumes:
+        - ./alertmanger/alertmanager.yml:/etc/alertmanger/alertmanager.yml
+      restart: always
+      command:
+        - '--config.file=/etc/alertmanger/alertmanager.yml'
+        - '--storage.path=/alertmanager/data'
+      networks:
+      - monitoring        
+      

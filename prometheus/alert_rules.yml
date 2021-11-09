@@ -1,16 +1,27 @@
+#reference: https://github.com/samber/awesome-prometheus-alerts/blob/master/_data/rules.yml
 groups:
-- name: example
-  rules:
+# - name: Selfmonitoring
+#   rules:
+#   - alert: PrometheusNotConnectedToAlertmanager
+#     expr: prometheus_notifications_alertmanagers_discovered < 1
+#     for: 0m
+#     labels:
+#       severity: critical
+#     annotations:
+#       summary: Prometheus not connected to alertmanager (instance {{ $labels.instance }})
+#       description: "Prometheus cannot connect the alertmanager\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
-  # Alert for any instance that is unreachable for >5 minutes.
+- name: Endpointmonitoring
+  rules:
+  #  Alert for any instance that is unreachable for >5 minutes.
   - alert: InstanceDown
     expr: up == 0
-    for: 30s
+    for: 1m
     labels:
       severity: page
     annotations:
       summary: "Instance {{ $labels.instance }} down"
-      description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 1 minutes."
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 30 minutes."
 
   # Alert for any instance that has a median request latency >1s.
   # - alert: APIHighRequestLatency
@@ -19,3 +30,23 @@ groups:
   #   annotations:
   #     summary: "High request latency on {{ $labels.instance }}"
   #     description: "{{ $labels.instance }} has a median request latency above 1s (current value: {{ $value }}s)"
+
+  - alert: flaskHighHttp4xxErrorRate
+    expr: sum(rate(flask_http_request_duration_seconds_count{status=~"^5.."}[1m])) / sum(rate(flask_http_request_duration_seconds_count[1m])) * 100 > 5
+    for: 30s
+    labels:
+      severity: critical
+    annotations:
+      summary: flask high HTTP 4xx error rate (instance {{ $labels.instance }})
+      description: "Too many HTTP requests with status 4xx (> 5%)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+  - alert: flaskHighHttp5xxErrorRate
+    expr: sum(rate(flask_http_request_duration_seconds_count{status=~"^5.."}[1m])) / sum(rate(flask_http_request_duration_seconds_count[1m])) * 100 > 5
+    for: 30s
+    labels:
+      severity: critical
+    annotations:
+      summary: flask high HTTP 5xx error rate (instance {{ $labels.instance }})
+      description: "Too many HTTP requests with status 5xx (> 5%)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+    
