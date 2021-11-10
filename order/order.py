@@ -3,16 +3,17 @@ from flask import Flask, jsonify, request
 from pymongo import MongoClient
 from prometheus_flask_exporter import PrometheusMetrics
 import json
+import requests
 
 app = Flask(__name__)
 metrics = PrometheusMetrics(app)
 
 #connect to MongoDB Server
 client = MongoClient(host='db_order', port=27018, username='order', password='12345')
-client2 = MongoClient(host='db_store', port=27017, username='store', password='12345')
+# client2 = MongoClient(host='db_store', port=27017, username='store', password='12345')
 #switch to db FatboyEat
 db = client.FatboyEat
-storedb = client2.FatboyEat
+# storedb = client2.FatboyEat
 
 @app.route('/')
 def todo():
@@ -66,10 +67,14 @@ def add_order(storeID):
         while (db["order"].count_documents({"order_id": order_id}) > 0):
             order_id = '{:05d}'.format(int(order_id) + 1)
 
-        if (storedb["store"].count_documents({"store_id": storeID}) > 0):
-            ordersdetails = storedb["store"].find_one({"store_id": storeID})
-            # for orderdetails in ordersdetails:
-            storename = ordersdetails['store_name']
+        response = requests.get("http://api_store:15002/stores/" + storeID)
+        if response.status_code == 200:
+            storedetails = json.loads(response.text)
+            storename = storedetails[0]['store_id']
+        # if (storedb["store"].count_documents({"store_id": storeID}) > 0):
+        #     ordersdetails = storedb["store"].find_one({"store_id": storeID})
+        #     # for orderdetails in ordersdetails:
+        #     storename = ordersdetails['store_name']
 
             data["order_id"] = order_id
             data["store_name"] = storename
