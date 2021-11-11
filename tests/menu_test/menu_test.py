@@ -95,3 +95,8 @@ def test_update_menu_item_Err500():
     response = requests.post(url+'/stores/33/menus/dishes/1', data=json.dumps(data2))
     #print(j)
     assert response.status_code == 500
+
+# Test the delete 200 case
+def test_detele_menu_item_200():
+    response = requests.delete(url+'/stores/33/menus/dishes/1')
+    assert response.status_code == 200
