@@ -47,8 +47,7 @@ def test_get_all_orders():
 #    assert response.status_code == 200
 
 data = {"store_id":"00002"}
-
-def test_order_addOrder():
+docdef test_order_addOrder():
     #url = url_order()
     response = requests.post(url+'/addorder/stores/00002', headers=headers, data=json.dumps(data))
     j = json.loads(response.text)
