@@ -90,7 +90,7 @@ def Remove_order(OrderID):
     try:
         if (db['order'].count_documents({"order_id": OrderID}) > 0):
             db['order'].delete_one({"order_id": OrderID})
-            return jsonify({'order_id':OrderID, 'stage':"Removed"}), 201
+            return jsonify({'order_id':OrderID, 'stage':"Removed"}), 200
         else:
             return jsonify(message="Cannot find the order"), 404
     except:
