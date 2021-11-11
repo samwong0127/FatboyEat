@@ -85,13 +85,13 @@ def update_item(store_id, dishes_id):
 @app.route ('/stores/<store_id>/menus/dishes/<dishes_id>', methods=['DELETE'])
 def delete_item(store_id, dishes_id):
     try:
-        if (db['menu'].count_documents({"store_id": store_id,'dishes_id':dishes_id}) > 0):
-            db['menu'].delete_one({"store_id": store_id,'dishes_id':dishes_id})
-            return jsonify({'store_id': store_id,'dishes_id':dishes_id, 'stage':"Removed"}), 200
+        dbResponse = db['menu'].delete_one({"store_id": store_id,'dishes_id':dishes_id})
+        if dbResponse.deleted_count==1:
+            return jsonify({'store_id': store_id,'dishes_id':dishes_id, 'stage':"Removed"}),200
         else:
-            return jsonify(message="Cannot find the dish in the menu"), 404
+            return jsonify({"message":"Cannot find the dish in the menu"}),404
     except:
-        return jsonify({"message":"sorry cannot remove this dish of this store", "DishID":f"{dishes_id}"}),500
+        return jsonify({"message":"sorry cannot remove this dish of this store", "dishes_id":f"{dishes_id}"}),500
 
 if __name__ == "__main__":
     #this Python flask REST API listen at port 15000 at 0.0.0.0 within the container.
