@@ -47,7 +47,7 @@ def test_get_all_orders():
 #    assert response.status_code == 200
 
 data = {"store_id":"00002"}
-docdef test_order_addOrder():
+def test_order_addOrder():
     #url = url_order()
     response = requests.post(url+'/addorder/stores/00002', headers=headers, data=json.dumps(data))
     j = json.loads(response.text)
@@ -70,7 +70,7 @@ def test_order_addOrder_Err500():
 def test_order_removeOrder():
     #url = url_order()
     response = requests.delete(url+'/deleteorder/orders/'+order_id_temp, headers=headers)
-    assert response.status_code == 201
+    assert response.status_code == 200
 
 # Test with a non-existing order_id
 def test_order_removeOrder_Err404():
