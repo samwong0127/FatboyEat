@@ -53,4 +53,4 @@ def test_get_store_with_category_Err404():
     response = requests.get(url+'/stores/category/'+category)
     j = json.loads(response.text)
     assert response.status_code == 404
-    
+

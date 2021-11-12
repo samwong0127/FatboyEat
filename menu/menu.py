@@ -81,6 +81,7 @@ def update_item(store_id, dishes_id):
     except:
         return jsonify({"message":"sorry cannot update the menu of this store", "store_id":f"{store_id}", "dishes_id":f"{dishes_id}"}),500
     
+
 # Delete an individual item within a menu.
 @app.route ('/stores/<store_id>/menus/dishes/<dishes_id>', methods=['DELETE'])
 def delete_item(store_id, dishes_id):
@@ -92,6 +93,7 @@ def delete_item(store_id, dishes_id):
             return jsonify({"message":"Cannot find the dish in the menu"}),404
     except:
         return jsonify({"message":"sorry cannot remove this dish of this store", "dishes_id":f"{dishes_id}"}),500
+
 
 if __name__ == "__main__":
     #this Python flask REST API listen at port 15000 at 0.0.0.0 within the container.

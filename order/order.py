@@ -15,6 +15,8 @@ client = MongoClient(host='db_order', port=27018, username='order', password='12
 db = client.FatboyEat
 # storedb = client2.FatboyEat
 
+
+
 @app.route('/')
 def todo():
     try:
@@ -67,6 +69,7 @@ def add_order(storeID):
         while (db["order"].count_documents({"order_id": order_id}) > 0):
             order_id = '{:05d}'.format(int(order_id) + 1)
 
+
         response = requests.get("http://api_store:15002/stores/" + storeID)
         if response.status_code == 200:
             storedetails = json.loads(response.text)
@@ -78,6 +81,7 @@ def add_order(storeID):
 
             data["order_id"] = order_id
             data["store_name"] = storename
+
             db['order'].insert_one(data)
             return jsonify({'store_id':storeID, 'order_id':order_id, 'stage':"success"}), 201
         else:
@@ -91,6 +95,7 @@ def Remove_order(OrderID):
         if (db['order'].count_documents({"order_id": OrderID}) > 0):
             db['order'].delete_one({"order_id": OrderID})
             return jsonify({'order_id':OrderID, 'stage':"Removed"}), 200
+
         else:
             return jsonify(message="Cannot find the order"), 404
     except:

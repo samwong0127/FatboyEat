@@ -26,6 +26,7 @@ def test_menu_api_Err404():
 def test_get_all_menu():
     response = requests.get(url+"/menus", headers=headers)
     assert response.status_code == 200
+
     
 # Get a specific menu
 def test_get_menu():
@@ -33,10 +34,12 @@ def test_get_menu():
     response = requests.get(url+"/stores/"+store_id+"/menus", headers=headers)
     assert response.status_code == 200
 
+
 # Get a menu with a wrong id
 def test_get_menu_Err404():
     response = requests.get(url+"/stores/"+wrong_id+"/menus", headers=headers)
     assert response.status_code == 404
+
 
 test_price = random.randint(101, 200)
 
@@ -49,6 +52,7 @@ def test_update_menu():
     assert response.status_code == 201
     assert j['store_id'] == '33'
     # NOT YET FINISHED
+
 
 # Change again and returns error because there is no difference between old and new
 def test_update_menu_Err409():
@@ -94,3 +98,4 @@ def test_detele_menu_item_200():
 def test_detele_menu_item_404():
     response = requests.delete(url+'/stores/33/menus/dishes/1')
     assert response.status_code == 404
+
