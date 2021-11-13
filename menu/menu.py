@@ -10,8 +10,8 @@ metrics = PrometheusMetrics(app)
 port_number=os.environ['MONGO_SERVER_PORT']
 #connect to MongoDB Server
 client = MongoClient(host='db_menu', port=27019, username='menu', password='12345')
-#switch to db fakeUberEat
-db = client.fakeUberEat
+#switch to db FatboyEat
+db = client.FatboyEat
 
 @app.route('/')
 def todo():
@@ -81,6 +81,20 @@ def update_item(store_id, dishes_id):
     except:
         return jsonify({"message":"sorry cannot update the menu of this store", "store_id":f"{store_id}", "dishes_id":f"{dishes_id}"}),500
     
+
+# Delete an individual item within a menu.
+@app.route ('/stores/<store_id>/menus/dishes/<dishes_id>', methods=['DELETE'])
+def delete_item(store_id, dishes_id):
+    try:
+        dbResponse = db['menu'].delete_one({"store_id": store_id,'dishes_id':dishes_id})
+        if dbResponse.deleted_count==1:
+            return jsonify({'store_id': store_id,'dishes_id':dishes_id, 'stage':"Removed"}),200
+        else:
+            return jsonify({"message":"Cannot find the dish in the menu"}),404
+    except:
+        return jsonify({"message":"sorry cannot remove this dish of this store", "dishes_id":f"{dishes_id}"}),500
+
+
 if __name__ == "__main__":
     #this Python flask REST API listen at port 15000 at 0.0.0.0 within the container.
     app.run(host='0.0.0.0', port=15000)

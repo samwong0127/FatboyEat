@@ -239,7 +239,6 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning
-      #- ./grafana/dashboards:/var/lib/grafana/dashboards
     networks:
       - monitoring
 
@@ -249,9 +248,25 @@ services:
     volumes:
       - ./prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml
       - prometheus_data:/var/lib/prometheus
+      - ./prometheus/alert_rules.yml:/etc/prometheus/alert_rules.yml
     command:
       - '--config.file=/etc/prometheus/prometheus.yaml'
     ports:
       - '9090:9090'
     networks:
       - monitoring
+
+  alertmanager:
+      image: prom/alertmanager
+      container_name: alertmanagers
+      ports:
+        - 9093:9093
+      volumes:
+        - ./alertmanger/alertmanager.yml:/etc/alertmanger/alertmanager.yml
+      restart: always
+      command:
+        - '--config.file=/etc/alertmanger/alertmanager.yml'
+        - '--storage.path=/alertmanager/data'
+      networks:
+      - monitoring        
+      
