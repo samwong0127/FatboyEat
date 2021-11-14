@@ -2,12 +2,19 @@ global:
   resolve_timeout: 5m
 
 route:
-  group_by: ['Selfmonitoring', 'Endpointmonitoring']
+  group_by: ['Endpointmonitoring']
   group_wait: 10s
   group_interval: 10s
   repeat_interval: 10s
   receiver: 'web.hook'
-
+  routes:
+  - receiver: 'web.hook'
+    match:
+      severity: 'warning'
+  - receiver: 'gmail'
+    match:
+      severity: 'critical'
+    
 receivers:
   - name: 'web.hook'
     webhook_configs:
