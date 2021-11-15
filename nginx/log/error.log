@@ -495,3 +495,62 @@
 2021/11/14 06:45:28 [notice] 1#1: signal 17 (SIGCHLD) received from 11
 2021/11/14 06:45:28 [notice] 1#1: worker process 11 exited with code 0
 2021/11/14 06:45:28 [notice] 1#1: exit
+2021/11/15 09:26:41 [notice] 1#1: using the "epoll" event method
+2021/11/15 09:26:41 [notice] 1#1: nginx/1.21.4
+2021/11/15 09:26:41 [notice] 1#1: built by gcc 10.2.1 20210110 (Debian 10.2.1-6) 
+2021/11/15 09:26:41 [notice] 1#1: OS: Linux 5.10.47-linuxkit
+2021/11/15 09:26:41 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2021/11/15 09:26:41 [notice] 1#1: start worker processes
+2021/11/15 09:26:41 [notice] 1#1: start worker process 8
+2021/11/15 09:26:41 [notice] 1#1: start worker process 9
+2021/11/15 09:32:39 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
+2021/11/15 09:32:39 [notice] 8#8: gracefully shutting down
+2021/11/15 09:32:39 [notice] 8#8: exiting
+2021/11/15 09:32:39 [notice] 9#9: gracefully shutting down
+2021/11/15 09:32:39 [notice] 8#8: exit
+2021/11/15 09:32:39 [notice] 9#9: exiting
+2021/11/15 09:32:39 [notice] 9#9: exit
+2021/11/15 09:32:40 [notice] 1#1: signal 17 (SIGCHLD) received from 9
+2021/11/15 09:32:40 [notice] 1#1: worker process 8 exited with code 0
+2021/11/15 09:32:40 [notice] 1#1: worker process 9 exited with code 0
+2021/11/15 09:32:40 [notice] 1#1: exit
+2021/11/15 09:36:40 [notice] 1#1: using the "epoll" event method
+2021/11/15 09:36:40 [notice] 1#1: nginx/1.21.4
+2021/11/15 09:36:40 [notice] 1#1: built by gcc 10.2.1 20210110 (Debian 10.2.1-6) 
+2021/11/15 09:36:40 [notice] 1#1: OS: Linux 5.10.47-linuxkit
+2021/11/15 09:36:40 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2021/11/15 09:36:40 [notice] 1#1: start worker processes
+2021/11/15 09:36:40 [notice] 1#1: start worker process 7
+2021/11/15 09:36:40 [notice] 1#1: start worker process 8
+2021/11/15 09:46:15 [notice] 1#1: using the "epoll" event method
+2021/11/15 09:46:15 [notice] 1#1: nginx/1.21.4
+2021/11/15 09:46:15 [notice] 1#1: built by gcc 10.2.1 20210110 (Debian 10.2.1-6) 
+2021/11/15 09:46:15 [notice] 1#1: OS: Linux 5.10.47-linuxkit
+2021/11/15 09:46:15 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2021/11/15 09:46:15 [notice] 1#1: start worker processes
+2021/11/15 09:46:15 [notice] 1#1: start worker process 7
+2021/11/15 09:46:15 [notice] 1#1: start worker process 8
+2021/11/15 09:52:28 [notice] 1#1: using the "epoll" event method
+2021/11/15 09:52:28 [notice] 1#1: nginx/1.21.4
+2021/11/15 09:52:28 [notice] 1#1: built by gcc 10.2.1 20210110 (Debian 10.2.1-6) 
+2021/11/15 09:52:28 [notice] 1#1: OS: Linux 5.10.47-linuxkit
+2021/11/15 09:52:28 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2021/11/15 09:52:28 [notice] 1#1: start worker processes
+2021/11/15 09:52:28 [notice] 1#1: start worker process 7
+2021/11/15 09:52:28 [notice] 1#1: start worker process 8
+2021/11/15 09:56:56 [notice] 1#1: using the "epoll" event method
+2021/11/15 09:56:56 [notice] 1#1: nginx/1.21.4
+2021/11/15 09:56:56 [notice] 1#1: built by gcc 10.2.1 20210110 (Debian 10.2.1-6) 
+2021/11/15 09:56:56 [notice] 1#1: OS: Linux 5.10.47-linuxkit
+2021/11/15 09:56:56 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2021/11/15 09:56:56 [notice] 1#1: start worker processes
+2021/11/15 09:56:56 [notice] 1#1: start worker process 7
+2021/11/15 09:56:56 [notice] 1#1: start worker process 8
+2021/11/15 10:08:01 [notice] 1#1: using the "epoll" event method
+2021/11/15 10:08:01 [notice] 1#1: nginx/1.21.4
+2021/11/15 10:08:01 [notice] 1#1: built by gcc 10.2.1 20210110 (Debian 10.2.1-6) 
+2021/11/15 10:08:01 [notice] 1#1: OS: Linux 5.10.47-linuxkit
+2021/11/15 10:08:01 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2021/11/15 10:08:01 [notice] 1#1: start worker processes
+2021/11/15 10:08:01 [notice] 1#1: start worker process 7
+2021/11/15 10:08:01 [notice] 1#1: start worker process 8

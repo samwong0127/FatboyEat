@@ -1,15 +1,16 @@
 import os
 from flask import Flask, jsonify, request
 from pymongo import MongoClient
+from pymongo import MongoReplicaSetClient
 from prometheus_flask_exporter import PrometheusMetrics
 import json
 
 app = Flask(__name__)
 metrics = PrometheusMetrics(app)
 
-port_number=os.environ['MONGO_SERVER_PORT']
+# port_number=os.environ['MONGO_SERVER_PORT']
 #connect to MongoDB Server
-client = MongoClient(host='db_menu', port=27019, username='menu', password='12345')
+client = MongoReplicaSetClient('mongo1_menu:27017', username='menu', password='12345',replicaSet='rs0_menu')
 #switch to db FatboyEat
 db = client.FatboyEat
 

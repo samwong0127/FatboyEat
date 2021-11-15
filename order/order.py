@@ -1,6 +1,7 @@
 import os
 from flask import Flask, jsonify, request
 from pymongo import MongoClient
+from pymongo import MongoReplicaSetClient
 from prometheus_flask_exporter import PrometheusMetrics
 import json
 import requests
@@ -9,7 +10,7 @@ app = Flask(__name__)
 metrics = PrometheusMetrics(app)
 
 #connect to MongoDB Server
-client = MongoClient(host='db_order', port=27018, username='order', password='12345')
+client = MongoReplicaSetClient('mongo1_order:27017', username='order', password='12345',replicaSet='rs0_order')
 # client2 = MongoClient(host='db_store', port=27017, username='store', password='12345')
 #switch to db FatboyEat
 db = client.FatboyEat

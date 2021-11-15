@@ -30,6 +30,15 @@ services:
       - menu
       - order
       - store
+      - mongo1_menu
+      - mongo2_menu
+      - mongo3_menu
+      - mongo1_order
+      - mongo2_order
+      - mongo3_order
+      - mongo1_store
+      - mongo2_store
+      - mongo3_store
       - prometheus
     networks:
       - elk
@@ -38,13 +47,15 @@ services:
   store:
     build: ./store
     depends_on:
-      - mongo_store
+      - mongo1_store
+      - mongo2_store
+      - mongo3_store
     restart: always
     environment:
       # MONGODB_DATABASE: 
       MONGODB_USERNAME: store
       MONGODB_PASSWORD: 12345
-      MONGO_SERVER_HOST: db_store
+      MONGO_SERVER_HOST: db1_store
       MONGO_SERVER_PORT: '27017'
     # volumes:
     #   - ./store:/store
@@ -58,13 +69,15 @@ services:
   order:
     build: ./order
     depends_on:
-      - mongo_order
+      - mongo1_order
+      - mongo2_order
+      - mongo3_order
     restart: always
     environment:
       # MONGODB_DATABASE: 
       MONGODB_USERNAME: order
       MONGODB_PASSWORD: 12345
-      MONGO_SERVER_HOST: db_order
+      MONGO_SERVER_HOST: db1_order
       MONGO_SERVER_PORT: '27018'
     # volumes:
     #  - ./order:/order
@@ -78,13 +91,14 @@ services:
   menu:
     build: ./menu
     depends_on:
-      - mongo_menu
+      - mongo1_menu
+      - mongo2_menu
+      - mongo3_menu
     restart: always
     environment:
-      # MONGODB_DATABASE: 
       MONGODB_USERNAME: menu
       MONGODB_PASSWORD: 12345
-      MONGO_SERVER_HOST: db_menu
+      MONGO_SERVER_HOST: db1_menu
       MONGO_SERVER_PORT: '27019'
     # links:
     #   - mongo_menu
@@ -97,47 +111,268 @@ services:
       - elk
       - monitoring
 
-  mongo_store:
+  # Store db
+  mongo_store_setup:
+    container_name: mongo_store_setup
     image: mongo
-    container_name: db_store
-    command: mongod --port 27017
+    restart: on-failure
+    networks:
+      - elk
+      - monitoring
+    volumes:
+      - ./store/scripts/setup.sh:/store/scripts/setup.sh
+    entrypoint: [ "sh", "/store/scripts/setup.sh" ] 
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: store
+      MONGO_INITDB_ROOT_PASSWORD: 12345
+    depends_on:
+      - mongo1_store
+      - mongo2_store
+      - mongo3_store
+
+  mongo1_store:
+    image: mongo
+    hostname: mongo1_store
+    container_name: db1_store
+    expose:
+      - 27017
+    ports:
+      - 27017:27017
+    restart: always
+    command: ["--keyFile", "/auth/file.key","--replSet", "rs0_store", "--bind_ip_all","--auth"]
     environment:
       MONGO_INITDB_ROOT_USERNAME: store
       MONGO_INITDB_ROOT_PASSWORD: 12345
       MONGO_INITDB_DATABASE: admin
+      MONGO_REPLICA_SET_NAME: rs0_store
     volumes:
-      - ./store/mongo-store-init.js:/docker-entrypoint-initdb.d/mongo-store-init.js
+      - ./store/data1/mongo-store-init.js:/docker-entrypoint-initdb.d/mongo-store-init.js
       - mongo_volume:/data/db_store
+      - ./store/file.key:/auth/file.key
     networks:
       - elk
       - monitoring
 
-  mongo_order:
+  mongo2_store:
     image: mongo
-    container_name: db_order
-    command: mongod --port 27018
+    hostname: mongo2_store
+    container_name: db2_store
+    expose:
+      - 27017
+    ports:
+      - 27027:27017
+    restart: always
+    command: ["--keyFile", "/auth/file.key","--replSet", "rs0_store", "--bind_ip_all","--auth"]
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: store
+      MONGO_INITDB_ROOT_PASSWORD: 12345
+      MONGO_INITDB_DATABASE: admin
+      MONGO_REPLICA_SET_NAME: rs0_store
+    volumes:
+      - ./store/data2/mongo-store-init.js:/docker-entrypoint-initdb.d/mongo-store-init.js
+      - mongo_volume:/data/db_store
+      - ./store/file.key:/auth/file.key
+    networks:
+      - elk
+      - monitoring
+
+  mongo3_store:
+    image: mongo
+    hostname: mongo3_store
+    container_name: db3_store
+    expose:
+      - 27017
+    ports:
+      - 27037:27017
+    restart: always
+    command: ["--keyFile", "/auth/file.key","--replSet", "rs0_store", "--bind_ip_all","--auth"]
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: store
+      MONGO_INITDB_ROOT_PASSWORD: 12345
+      MONGO_INITDB_DATABASE: admin
+      MONGO_REPLICA_SET_NAME: rs0_store
+    volumes:
+      - ./store/data3/mongo-store-init.js:/docker-entrypoint-initdb.d/mongo-store-init.js
+      - mongo_volume:/data/db_store
+      - ./store/file.key:/auth/file.key
+    networks:
+      - elk
+      - monitoring
+
+   
+  # Order db 
+  mongo_order_setup:
+    container_name: mongo_order_setup
+    image: mongo
+    restart: on-failure
+    networks:
+      - elk
+      - monitoring
+    volumes:
+      - ./order/scripts/setup.sh:/order/scripts/setup.sh
+    entrypoint: [ "sh", "/order/scripts/setup.sh" ] 
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: order 
+      MONGO_INITDB_ROOT_PASSWORD: 12345
+    depends_on:
+      - mongo1_order
+      - mongo2_order
+      - mongo3_order
+
+  mongo1_order:
+    image: mongo
+    hostname: mongo1_order
+    container_name: db1_order
+    expose:
+      - 27017
+    ports:
+      - 27018:27017
+    restart: always
+    command: ["--keyFile", "/auth/file.key","--replSet", "rs0_order", "--bind_ip_all","--auth"]
     environment:
       MONGO_INITDB_ROOT_USERNAME: order
       MONGO_INITDB_ROOT_PASSWORD: 12345
       MONGO_INITDB_DATABASE: admin
+      MONGO_REPLICA_SET_NAME: rs0_order
     volumes:
-      - ./order/mongo-order-init.js:/docker-entrypoint-initdb.d/mongo-order-init.js
+      - ./order/data1/mongo-order-init.js:/docker-entrypoint-initdb.d/mongo-order-init.js
       - mongo_volume:/data/db_order
+      - ./order/file.key:/auth/file.key
     networks:
       - elk
       - monitoring
-
-  mongo_menu:
+  mongo2_order:
     image: mongo
-    container_name: db_menu
-    command: mongod --port 27019
+    hostname: mongo2_order
+    container_name: db2_order
+    expose:
+      - 27017
+    ports:
+      - 27028:27017
+    restart: always
+    command: ["--keyFile", "/auth/file.key","--replSet", "rs0_order", "--bind_ip_all","--auth"]
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: order
+      MONGO_INITDB_ROOT_PASSWORD: 12345
+      MONGO_INITDB_DATABASE: admin
+      MONGO_REPLICA_SET_NAME: rs0_order
+    volumes:
+      - ./order/data2/mongo-order-init.js:/docker-entrypoint-initdb.d/mongo-order-init.js
+      - mongo_volume:/data/db_order
+      - ./order/file.key:/auth/file.key
+    networks:
+      - elk
+      - monitoring
+  mongo3_order:
+    image: mongo
+    hostname: mongo3_order
+    container_name: db3_order
+    expose:
+      - 27017
+    ports:
+      - 27038:27017
+    restart: always
+    command: ["--keyFile", "/auth/file.key","--replSet", "rs0_order", "--bind_ip_all","--auth"]
+    # entrypoint: [ "/usr/bin/mongod", "--bind_ip_all",   "--replSet", "rs0" ]
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: order
+      MONGO_INITDB_ROOT_PASSWORD: 12345
+      MONGO_INITDB_DATABASE: admin
+      MONGO_REPLICA_SET_NAME: rs0_order
+    volumes:
+      - ./order/data3/mongo-order-init.js:/docker-entrypoint-initdb.d/mongo-order-init.js
+      - mongo_volume:/data/db_order
+      - ./order/file.key:/auth/file.key
+    networks:
+      - elk
+      - monitoring
+    
+  
+  # Menu db
+  mongo_menu_setup:
+    container_name: mongo_menu_setup
+    image: mongo
+    restart: on-failure
+    networks:
+      - elk
+      - monitoring
+    volumes:
+      - ./menu/scripts/setup.sh:/menu/scripts/setup.sh
+    entrypoint: [ "sh", "/menu/scripts/setup.sh" ] 
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: menu  
+      MONGO_INITDB_ROOT_PASSWORD: 12345
+    depends_on:
+      - mongo1_menu
+      - mongo2_menu
+      - mongo3_menu
+
+  mongo1_menu:
+    image: mongo
+    hostname: mongo1_menu
+    container_name: db1_menu
+    expose:
+      - 27017
+    ports:
+      - 27019:27017
+    restart: always
+    command: ["--keyFile", "/auth/file.key","--replSet", "rs0_menu", "--bind_ip_all","--auth"]
     environment:
       MONGO_INITDB_ROOT_USERNAME: menu
       MONGO_INITDB_ROOT_PASSWORD: 12345
       MONGO_INITDB_DATABASE: admin
+      MONGO_REPLICA_SET_NAME: rs0_menu
     volumes:
-      - ./menu/mongo-menu-init.js:/docker-entrypoint-initdb.d/mongo-menu-init.js
+      - ./menu/data1/mongo-menu-init.js:/docker-entrypoint-initdb.d/mongo-menu-init.js
       - mongo_volume:/data/db_menu
+      - ./menu/file.key:/auth/file.key
+    networks:
+      - elk
+      - monitoring
+  mongo2_menu:
+    image: mongo
+    hostname: mongo2_menu
+    container_name: db2_menu
+    expose:
+      - 27017
+    ports:
+      - 27029:27017
+    restart: always
+    command: ["--keyFile", "/auth/file.key","--replSet", "rs0_menu", "--bind_ip_all","--auth"]
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: menu
+      MONGO_INITDB_ROOT_PASSWORD: 12345
+      MONGO_INITDB_DATABASE: admin
+      MONGO_REPLICA_SET_NAME: rs0_menu
+    volumes:
+      - ./menu/data2/mongo-menu-init.js:/docker-entrypoint-initdb.d/mongo-menu-init.js
+      - mongo_volume:/data/db_menu
+      - ./menu/file.key:/auth/file.key
+    networks:
+      - elk
+      - monitoring
+
+  mongo3_menu:
+    image: mongo
+    hostname: mongo3_menu
+    container_name: db3_menu
+    expose:
+      - 27017
+    ports:
+      - 27039:27017
+    restart: always
+    # entrypoint: [ "mongod", "--bind_ip_all", "--replSet", "rs0" ]
+    command: ["--keyFile", "/auth/file.key","--replSet", "rs0_menu", "--bind_ip_all","--auth"]
+    # entrypoint: [ "/usr/bin/mongod", "--bind_ip_all",   "--replSet", "rs0" ]
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: menu
+      MONGO_INITDB_ROOT_PASSWORD: 12345
+      MONGO_INITDB_DATABASE: admin
+      MONGO_REPLICA_SET_NAME: rs0_menu
+    volumes:
+      - ./menu/data3/mongo-menu-init.js:/docker-entrypoint-initdb.d/mongo-menu-init.js
+      - mongo_volume:/data/db_menu
+      - ./menu/file.key:/auth/file.key
     networks:
       - elk
       - monitoring
