@@ -18,7 +18,7 @@ route:
 receivers:
   - name: 'web.hook'
     webhook_configs:
-    - url: 'http://127.0.0.1:5001/' #告警web.hook地址，告警資訊會post到該地址，需要編寫服務接收該告警資料
+    - url: 'http://127.0.0.1:5001/'
 
   - name: 'gmail'
     email_configs:
@@ -34,5 +34,5 @@ inhibit_rules:
   - source_match:
       severity: 'critical'
     target_match:
-      severity: 'warning' #目標告警狀態
+      severity: 'warning'
     equal: ['alertname', 'dev', 'instance']
