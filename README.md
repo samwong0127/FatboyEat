@@ -44,7 +44,7 @@ Here is all our API endpoints:
 # To visit Kibana
 1.  Open a new browser.
 2.  Visit localhost:5601
-3.  Login using username "elastic" and password "changeme".
+3.  Login using username ``elastic`` and password ``changeme``.
 
 # To visit Prometheus
 1.  Open a new browser.
@@ -53,7 +53,7 @@ Here is all our API endpoints:
 # To visit Grafana
 1.  Open a new browser.
 2.  Visit localhost:3000
-3.  Login using username "admin" and password "admin".
+3.  Login using username ``admin`` and password ``admin``.
 
 # To visit Alertmanager
 1.  Open a new browser.
